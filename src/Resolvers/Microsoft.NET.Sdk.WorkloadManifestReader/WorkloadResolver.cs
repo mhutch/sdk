@@ -423,7 +423,7 @@ namespace Microsoft.NET.Sdk.WorkloadManifestReader
 
             return new HashSet<WorkloadInfo>
             (
-                finder.GetBestSuggestion().Workloads.Select(s => new WorkloadInfo(s.ToString(), _workloads[s].workload.Description))
+                finder.GetBestSuggestion().Workloads.Select(s => new WorkloadInfo(s, _workloads[s].workload.Description))
             );
         }
 
@@ -539,13 +539,13 @@ namespace Microsoft.NET.Sdk.WorkloadManifestReader
 
         public class WorkloadInfo
         {
-            public WorkloadInfo(string id, string? description)
+            public WorkloadInfo(WorkloadId id, string? description)
             {
                 Id = id;
                 Description = description;
             }
 
-            public string Id { get; }
+            public WorkloadId Id { get; }
             public string? Description { get; }
         }
 
@@ -553,7 +553,7 @@ namespace Microsoft.NET.Sdk.WorkloadManifestReader
         {
             if (_workloads.TryGetValue(WorkloadId) is (WorkloadDefinition workload, _))
             {
-                return new WorkloadInfo(workload.Id.ToString(), workload.Description);
+                return new WorkloadInfo(workload.Id, workload.Description);
             }
             throw new Exception("Workload not found");
         }
