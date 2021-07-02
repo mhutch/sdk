@@ -45,13 +45,9 @@ namespace Microsoft.DotNet.Workloads.Workload.Search
                 availableWorkloads = availableWorkloads.Where(workload => workload.Id.ToString().Contains(_workloadIdStub, StringComparison.OrdinalIgnoreCase));
             }
 
-            var table = new PrintableTable<WorkloadDefinition>();
+            var table = new PrintableTable<WorkloadResolver.WorkloadInfo>();
             table.AddColumn(LocalizableStrings.WorkloadIdColumnName, workload => workload.Id.ToString());
             table.AddColumn(LocalizableStrings.DescriptionColumnName, workload => workload.Description);
-            if (_verbosity.VerbosityIsDetailedOrDiagnostic())
-            {
-                table.AddColumn(LocalizableStrings.PlatformColumnName, workload => workload.Platforms == null ? string.Empty : string.Join(" ", workload.Platforms));
-            }
 
             _reporter.WriteLine();
             table.PrintRows(availableWorkloads, l => _reporter.WriteLine(l));
