@@ -352,7 +352,7 @@ namespace Microsoft.DotNet.Workloads.Workload.Install
         {
             var installedWorkloads = _installationRecordRepository.GetInstalledWorkloads(sdkFeatureBand);
             return installedWorkloads
-                .SelectMany(workload => _workloadResolver.GetPacksInWorkload(workload.ToString()))
+                .SelectMany(workload => _workloadResolver.GetPacksInWorkload(workload))
                 .Select(pack => _workloadResolver.TryGetPackInfo(pack))
                 .Where(pack => pack != null)
                 .Select(packInfo => GetPackInstallRecordPath(packInfo, sdkFeatureBand));
@@ -363,7 +363,7 @@ namespace Microsoft.DotNet.Workloads.Workload.Install
             // Expected path: <DOTNET ROOT>/metadata/workloads/installedpacks/v1/<Pack ID>/<Pack Version>/
             var idRecordPath = Path.GetDirectoryName(packRecordDir);
             var packId = Path.GetFileName(idRecordPath);
-            var packInfo = _workloadResolver.TryGetPackInfo(packId);
+            var packInfo = _workloadResolver.TryGetPackInfo(new WorkloadPackId(packId));
             if (packInfo != null && packInfo.Version.Equals(Path.GetFileName(packRecordDir)))
             {
                 return packInfo;

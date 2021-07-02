@@ -34,5 +34,9 @@ namespace Microsoft.NET.Sdk.WorkloadManifestReader
         public override string ToString() => _id;
 
         public static implicit operator string(WorkloadId id) => id._id;
+
+        public static bool operator ==(WorkloadId a, WorkloadId b) => a.Equals(b);
+
+        public static bool operator !=(WorkloadId a, WorkloadId b) => !a.Equals(b);
     }
 }
